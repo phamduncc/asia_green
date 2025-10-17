@@ -1,0 +1,119 @@
+# ADDITIONAL QUESTIONS TO BE ADDED
+
+## Lesson 4 (Climate Change) - Thêm 5 câu
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Băng tan ở Nam Cực và Bắc Cực gây ra vấn đề gì?',
+      'options': 'Không có vấn đề|||Mực nước biển dâng|||Nhiều đất đai hơn|||Khí hậu mát hơn',
+      'correctAnswer': 1,
+      'explanation': 'Băng tan làm mực nước biển dâng, ngập các vùng ven biển, đảo nhỏ.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Hiện tượng El Niño liên quan đến gì?',
+      'options': 'Động đất|||Biến đổi khí hậu|||Sóng thần|||Núi lửa',
+      'correctAnswer': 1,
+      'explanation': 'El Niño là hiện tượng khí hậu bất thường, gây hạn hán và lũ lụt do biến đổi khí hậu.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Nông nghiệp bị ảnh hưởng bởi BĐKH như thế nào?',
+      'options': 'Mùa màng tốt hơn|||Mất mùa, dịch bệnh|||Không ảnh hưởng|||Tăng sản lượng',
+      'correctAnswer': 1,
+      'explanation': 'BĐKH gây hạn hán, lũ lụt, dịch bệnh làm mất mùa, giảm sản lượng nông nghiệp.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Nhiệt độ Trái Đất đã tăng bao nhiêu kể từ thời kỳ tiền công nghiệp?',
+      'options': '0.1°C|||0.5°C|||Khoảng 1.1°C|||5°C',
+      'correctAnswer': 2,
+      'explanation': 'Nhiệt độ toàn cầu đã tăng khoảng 1.1°C, nguy cơ vượt 1.5°C trong vài thập kỷ tới.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Giao thông vận tải thải ra khí gì gây BĐKH?',
+      'options': 'Oxy|||CO2|||Hydro|||Nitơ',
+      'correctAnswer': 1,
+      'explanation': 'Xe cộ thải CO2 từ đốt xăng dầu, chiếm 24% lượng khí nhà kính toàn cầu.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Cách nào giảm khí thải từ giao thông?',
+      'options': 'Mua thêm ô tô|||Đi xe đạp, xe buýt|||Lái xe nhanh|||Không bảo dưỡng xe',
+      'correctAnswer': 1,
+      'explanation': 'Sử dụng phương tiện công cộng, xe đạp giúp giảm khí thải đáng kể.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 4,
+      'question': 'Tầng ozon bị thủng ảnh hưởng gì?',
+      'options': 'Không ảnh hưởng|||Tia UV gây ung thư da|||Khí hậu mát|||Mưa nhiều',
+      'correctAnswer': 1,
+      'explanation': 'Tầng ozon bảo vệ khỏi tia UV, khi bị thủng gây ung thư da, bệnh mắt.',
+    });
+
+## Lesson 5 (Nature & Ecosystem) - Thêm 5 câu
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Một cây trưởng thành có thể hấp thụ bao nhiêu kg CO2/năm?',
+      'options': '1-2 kg|||5-10 kg|||20-30 kg|||100 kg',
+      'correctAnswer': 2,
+      'explanation': 'Một cây trưởng thành hấp thụ khoảng 20-30 kg CO2 mỗi năm, giúp giảm khí nhà kính.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Chuỗi thức ăn bị đứt khi nào?',
+      'options': 'Có thêm loài mới|||Một loài bị tuyệt chủng|||Mùa màng tốt|||Nhiều thức ăn',
+      'correctAnswer': 1,
+      'explanation': 'Khi một loài trong chuỗi thức ăn tuyệt chủng, toàn bộ chuỗi bị ảnh hưởng.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Ong có vai trò gì trong hệ sinh thái?',
+      'options': 'Không có|||Thụ phấn cho hoa|||Gây hại|||Làm mật ong',
+      'correctAnswer': 1,
+      'explanation': 'Ong thụ phấn cho 75% cây trồng, rất quan trọng cho nông nghiệp và hệ sinh thái.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Loài ngoại lai xâm lấn có hại như thế nào?',
+      'options': 'Tốt cho môi trường|||Phá hủy loài bản địa|||Tăng đa dạng|||Không ảnh hưởng',
+      'correctAnswer': 1,
+      'explanation': 'Loài ngoại lai cạnh tranh, ăn mất loài bản địa, phá hủy cân bằng sinh thái.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Cây xanh giúp giảm nhiệt độ thành phố bao nhiêu?',
+      'options': 'Không giảm|||1-2°C|||3-5°C|||10°C',
+      'correctAnswer': 2,
+      'explanation': 'Cây xanh giảm nhiệt độ thành phố 3-5°C nhờ bóng mát và bốc hơi nước.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Rừng ngập mặn bảo vệ bờ biển khỏi?',
+      'options': 'Mưa|||Sóng thần, bão|||Nắng|||Gió nhẹ',
+      'correctAnswer': 1,
+      'explanation': 'Rừng ngập mặn là hàng rào tự nhiên chống sóng thần, bão, bảo vệ cộng đồng ven biển.',
+    });
+
+    await db.insert('questions', {
+      'lessonId': 5,
+      'question': 'Vườn quốc gia được thành lập để làm gì?',
+      'options': 'Du lịch|||Bảo tồn thiên nhiên|||Khai thác gỗ|||Săn bắn',
+      'correctAnswer': 1,
+      'explanation': 'Vườn quốc gia bảo tồn động thực vật quý hiếm và hệ sinh thái tự nhiên.',
+    });
+
+## Continue with remaining lessons...

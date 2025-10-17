@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 import '../services/database_helper.dart';
+import '../l10n/app_localizations.dart';
 import 'games/trash_sort_game.dart';
 import 'games/river_clean_game.dart';
 import 'games/tree_plant_game.dart';
-import 'games/energy_save_game.dart';
 
 class GamesScreen extends StatefulWidget {
   const GamesScreen({super.key});
@@ -14,38 +14,48 @@ class GamesScreen extends StatefulWidget {
 }
 
 class _GamesScreenState extends State<GamesScreen> {
-  final List<GameInfo> _games = [
-    GameInfo(
-      name: 'Phân loại rác',
-      description: 'Kéo thả rác vào đúng thùng để tái chế',
-      icon: '♻️',
-      color: Colors.green,
-      route: AppConstants.gameTrashSort,
-    ),
-    GameInfo(
-      name: 'Làm sạch dòng sông',
-      description: 'Chạm để loại bỏ rác trôi nổi trên sông',
-      icon: '💧',
-      color: Colors.blue,
-      route: AppConstants.gameRiverClean,
-    ),
-    GameInfo(
-      name: 'Trồng cây ảo',
-      description: 'Chăm sóc và trồng cây để tạo khu rừng xanh',
-      icon: '🌳',
-      color: Colors.teal,
-      route: AppConstants.gameTreePlant,
-    ),
-    GameInfo(
-      name: 'Tiết kiệm năng lượng',
-      description: 'Tắt các thiết bị điện không sử dụng',
-      icon: '💡',
-      color: Colors.orange,
-      route: AppConstants.gameEnergySave,
-    ),
-  ];
-
   final Map<String, int?> _highScores = {};
+
+  List<GameInfo> _getGames(AppLocalizations l10n) {
+    return [
+      GameInfo(
+        name: l10n.locale.languageCode == 'vi' ? 'Phân loại rác' : 'Sort Trash',
+        description: l10n.locale.languageCode == 'vi' 
+            ? 'Kéo thả rác vào đúng thùng để tái chế'
+            : 'Drag and drop trash into correct bins',
+        icon: '♻️',
+        color: Colors.green,
+        route: AppConstants.gameTrashSort,
+      ),
+      GameInfo(
+        name: l10n.locale.languageCode == 'vi' ? 'Làm sạch dòng sông' : 'Clean the River',
+        description: l10n.locale.languageCode == 'vi'
+            ? 'Chạm để loại bỏ rác trôi nổi trên sông'
+            : 'Tap to remove floating trash from river',
+        icon: '💧',
+        color: Colors.blue,
+        route: AppConstants.gameRiverClean,
+      ),
+      GameInfo(
+        name: l10n.locale.languageCode == 'vi' ? 'Trồng cây ảo' : 'Plant Trees',
+        description: l10n.locale.languageCode == 'vi'
+            ? 'Chăm sóc và trồng cây để tạo khu rừng xanh'
+            : 'Care and plant trees to create green forest',
+        icon: '🌳',
+        color: Colors.teal,
+        route: AppConstants.gameTreePlant,
+      ),
+      GameInfo(
+        name: l10n.locale.languageCode == 'vi' ? 'Tiết kiệm năng lượng' : 'Save Energy',
+        description: l10n.locale.languageCode == 'vi'
+            ? 'Tắt các thiết bị điện không sử dụng'
+            : 'Turn off unused electrical devices',
+        icon: '💡',
+        color: Colors.orange,
+        route: AppConstants.gameEnergySave,
+      ),
+    ];
+  }
 
   @override
   void initState() {
@@ -55,25 +65,35 @@ class _GamesScreenState extends State<GamesScreen> {
 
   Future<void> _loadHighScores() async {
     final db = DatabaseHelper.instance;
-    for (final game in _games) {
-      final score = await db.getHighScore(game.route);
+    final routes = [
+      AppConstants.gameTrashSort,
+      AppConstants.gameRiverClean,
+      AppConstants.gameTreePlant,
+      AppConstants.gameEnergySave,
+    ];
+    
+    for (final route in routes) {
+      final score = await db.getHighScore(route);
       setState(() {
-        _highScores[game.route] = score;
+        _highScores[route] = score;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final games = _getGames(l10n);
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trò chơi Giáo dục'),
+        title: Text(l10n.educationalGames),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: _games.length,
+        itemCount: games.length,
         itemBuilder: (context, index) {
-          final game = _games[index];
+          final game = games[index];
           return _buildGameCard(game);
         },
       ),
@@ -81,6 +101,7 @@ class _GamesScreenState extends State<GamesScreen> {
   }
 
   Widget _buildGameCard(GameInfo game) {
+    final l10n = AppLocalizations.of(context)!;
     final highScore = _highScores[game.route];
 
     return Card(
@@ -148,7 +169,7 @@ class _GamesScreenState extends State<GamesScreen> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            'Kỷ lục: $highScore',
+                            '${l10n.highScore}: $highScore',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.amber[700],
@@ -185,9 +206,6 @@ class _GamesScreenState extends State<GamesScreen> {
         break;
       case AppConstants.gameTreePlant:
         screen = const TreePlantGame();
-        break;
-      case AppConstants.gameEnergySave:
-        screen = const EnergySaveGame();
         break;
       default:
         ScaffoldMessenger.of(context).showSnackBar(

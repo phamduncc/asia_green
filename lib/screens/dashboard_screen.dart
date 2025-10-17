@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../utils/constants.dart';
 import '../services/database_helper.dart';
+import '../providers/theme_provider.dart';
+import '../providers/language_provider.dart';
+import '../l10n/app_localizations.dart';
 import 'lessons_screen.dart';
 import 'quiz_list_screen.dart';
 import 'games_screen.dart';
@@ -45,6 +49,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: Text(AppConstants.appName),
         actions: [
+          // Language toggle
+          Consumer<LanguageProvider>(
+            builder: (context, languageProvider, child) {
+              return IconButton(
+                icon: Text(
+                  languageProvider.languageFlag,
+                  style: const TextStyle(fontSize: 24),
+                ),
+                tooltip: languageProvider.currentLanguageName,
+                onPressed: () {
+                  languageProvider.toggleLanguage();
+                  final l10n = AppLocalizations.of(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        languageProvider.locale.languageCode == 'vi'
+                            ? 'Chuyển sang Tiếng Việt'
+                            : 'Switched to English',
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          // Theme toggle
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return IconButton(
+                icon: Icon(themeProvider.themeModeIcon),
+                tooltip: 'Chế độ: ${themeProvider.themeModeLabel}',
+                onPressed: () {
+                  themeProvider.toggleTheme();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Chuyển sang chế độ ${themeProvider.themeModeLabel}'),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
@@ -80,7 +128,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildWelcomeCard() {
-    final userLevel = AppConstants.getUserLevel(_totalPoints);
+    final l10n = AppLocalizations.of(context)!;
+    final userLevel = _getUserLevelText(_totalPoints, l10n);
     
     return Card(
       child: Container(
@@ -101,16 +150,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '🌱 ${AppConstants.appSlogan}',
+              '${l10n.welcome} 🌱',
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             Text(
-              'Cấp độ: $userLevel',
+              l10n.slogan,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${l10n.yourLevel}: $userLevel',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -122,7 +179,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const Icon(Icons.stars, color: Colors.amber, size: 24),
                 const SizedBox(width: 8),
                 Text(
-                  '$_totalPoints điểm xanh',
+                  '$_totalPoints ${l10n.greenPoints}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -137,16 +194,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  String _getUserLevelText(int points, AppLocalizations l10n) {
+    if (points >= 1000) return l10n.levelEcoAmbassador;
+    if (points >= 500) return l10n.levelGreenHouse;
+    return l10n.levelBeginner;
+  }
+
   Widget _buildStatsCard() {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Thành tích của bạn',
-              style: TextStyle(
+            Text(
+              l10n.yourLevel,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -157,19 +222,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 _buildStatItem(
                   Icons.school,
-                  'Bài học',
+                  l10n.completedLessons,
                   _completedLessons.toString(),
                   AppConstants.lightGreen,
                 ),
                 _buildStatItem(
                   Icons.emoji_events,
-                  'Thử thách',
+                  l10n.completedChallenges,
                   _completedChallenges.toString(),
                   AppConstants.accentBlue,
                 ),
                 _buildStatItem(
                   Icons.eco,
-                  'Điểm xanh',
+                  l10n.greenPoints,
                   _totalPoints.toString(),
                   AppConstants.darkGreen,
                 ),
@@ -214,12 +279,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildQuickActions() {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Khám phá',
-          style: TextStyle(
+        Text(
+          l10n.quickActions,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -235,8 +302,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             _buildActionCard(
               '📘',
-              'Học',
-              'Kiến thức môi trường',
+              l10n.learn,
+              l10n.lessons,
               AppConstants.lightGreen,
               () {
                 Navigator.push(
@@ -247,8 +314,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             _buildActionCard(
               '🧠',
-              'Kiểm tra',
-              'Trắc nghiệm xanh',
+              l10n.quiz,
+              l10n.quizzes,
               AppConstants.accentBlue,
               () {
                 Navigator.push(
@@ -259,8 +326,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             _buildActionCard(
               '🎮',
-              'Chơi',
-              'Trò chơi giáo dục',
+              l10n.games,
+              l10n.educationalGames,
               Colors.orange,
               () {
                 Navigator.push(
@@ -271,8 +338,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             _buildActionCard(
               '🏆',
-              'Thử thách',
-              'Thử thách xanh',
+              l10n.challenges,
+              l10n.greenChallenges,
               Colors.purple,
               () {
                 Navigator.push(
@@ -347,14 +414,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildMotivationalCard() {
-    final messages = [
-      '💪 Mỗi hành động nhỏ đều tạo nên sự thay đổi lớn!',
-      '🌍 Cùng nhau bảo vệ Trái Đất!',
-      '♻️ Tái chế hôm nay, tương lai xanh mai sau!',
-      '🌳 Mỗi cây xanh là một hy vọng mới!',
-      '💚 Hành động xanh, cuộc sống xanh!',
-    ];
-    
+    final l10n = AppLocalizations.of(context)!;
+    final messages = l10n.motivationalMessages;
     final randomMessage = messages[DateTime.now().day % messages.length];
 
     return Card(
@@ -379,28 +440,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _showAboutDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Về ứng dụng'),
-        content: const Column(
+        title: Text(l10n.about),
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Asia Green - Giáo dục Môi trường',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            const Text(
+              'Asia Green',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 8),
-            Text('Phiên bản: 1.0.0'),
-            SizedBox(height: 8),
-            Text('Ứng dụng giáo dục về bảo vệ môi trường, hoạt động hoàn toàn offline.'),
+            const SizedBox(height: 8),
+            Text('${l10n.version}: 1.0.0'),
+            const SizedBox(height: 8),
+            Text(l10n.slogan),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Đóng'),
+            child: Text(l10n.ok),
           ),
         ],
       ),

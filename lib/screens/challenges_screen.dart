@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/challenge.dart';
 import '../services/database_helper.dart';
 import '../utils/constants.dart';
+import '../l10n/app_localizations.dart';
 
 class ChallengesScreen extends StatefulWidget {
   const ChallengesScreen({super.key});
@@ -43,11 +44,12 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final completedCount = _challenges.where((c) => c.isCompleted).length;
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Thử thách Xanh'),
+        title: Text(l10n.greenChallenges),
       ),
       body: Column(
         children: [
@@ -63,6 +65,8 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
   }
 
   Widget _buildStatsCard(int completedCount) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Card(
       margin: const EdgeInsets.all(16),
       child: Container(
@@ -83,7 +87,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           children: [
             _buildStatColumn(
               '🏆',
-              'Hoàn thành',
+              l10n.completed,
               '$completedCount/${_challenges.length}',
             ),
             Container(
@@ -93,7 +97,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
             ),
             _buildStatColumn(
               '⭐',
-              'Điểm tích lũy',
+              l10n.earnedPoints,
               _totalPoints.toString(),
             ),
           ],
@@ -224,8 +228,8 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '+${challenge.points} điểm',
-                            style: TextStyle(
+                            '+${challenge.points} ${AppLocalizations.of(context)!.points}',
+                            style: const TextStyle(
                               fontSize: 12,
                               color: AppConstants.primaryGreen,
                               fontWeight: FontWeight.bold,
@@ -271,6 +275,8 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
   }
 
   void _showChallengeDialog(Challenge challenge) {
+    final l10n = AppLocalizations.of(context)!;
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -306,7 +312,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Phần thưởng: +${challenge.points} điểm xanh',
+                    '+${challenge.points} ${l10n.greenPoints}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppConstants.primaryGreen,
@@ -316,23 +322,25 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Bạn đã hoàn thành thử thách này chưa?',
-              style: TextStyle(fontSize: 14),
+            Text(
+              l10n.locale.languageCode == 'vi'
+                  ? 'Bạn đã hoàn thành thử thách này chưa?'
+                  : 'Have you completed this challenge?',
+              style: const TextStyle(fontSize: 14),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Chưa'),
+            child: Text(l10n.no),
           ),
           ElevatedButton(
             onPressed: () {
               _completeChallenge(challenge);
               Navigator.pop(context);
             },
-            child: const Text('Hoàn thành'),
+            child: Text(l10n.complete),
           ),
         ],
       ),
@@ -345,9 +353,10 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     
     if (!mounted) return;
     
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('🎉 Bạn đã nhận được ${challenge.points} điểm xanh!'),
+        content: Text('🎉 +${challenge.points} ${l10n.greenPoints}!'),
         backgroundColor: Colors.green,
       ),
     );

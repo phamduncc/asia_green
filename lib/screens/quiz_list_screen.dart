@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/database_helper.dart';
 import '../utils/constants.dart';
+import '../l10n/app_localizations.dart';
 import 'quiz_screen.dart';
 
 class QuizListScreen extends StatefulWidget {
@@ -48,9 +49,11 @@ class _QuizListScreenState extends State<QuizListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trắc nghiệm Xanh'),
+        title: Text(l10n.quizzes),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -61,6 +64,8 @@ class _QuizListScreenState extends State<QuizListScreen> {
   }
 
   Widget _buildEmptyState() {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +76,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Chưa có bài kiểm tra nào',
+            l10n.quizzes,
             style: TextStyle(
               fontSize: 18,
               color: Colors.grey[600],
@@ -80,6 +85,16 @@ class _QuizListScreenState extends State<QuizListScreen> {
         ],
       ),
     );
+  }
+
+  Map<String, String> _getCategoryNames(AppLocalizations l10n) {
+    return {
+      'water': l10n.water,
+      'waste': l10n.waste,
+      'energy': l10n.energy,
+      'climate': l10n.climate,
+      'nature': l10n.nature,
+    };
   }
 
   Widget _buildQuizList() {
@@ -94,12 +109,14 @@ class _QuizListScreenState extends State<QuizListScreen> {
   }
 
   Widget _buildQuizCard(Map<String, dynamic> category) {
+    final l10n = AppLocalizations.of(context)!;
+    final categoryNames = _getCategoryNames(l10n);
     final categoryKey = category['category'] as String;
     final questionCount = category['questionCount'] as int;
     final lessonCount = category['lessonCount'] as int;
     
     final icon = _categoryIcons[categoryKey] ?? '📝';
-    final title = _categoryNames[categoryKey] ?? categoryKey;
+    final title = categoryNames[categoryKey] ?? categoryKey;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -111,9 +128,10 @@ class _QuizListScreenState extends State<QuizListScreen> {
           if (!context.mounted) return;
 
           if (questions.isEmpty) {
+            final l10n = AppLocalizations.of(context)!;
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Chủ đề này chưa có câu hỏi'),
+              SnackBar(
+                content: Text(l10n.questions),
               ),
             );
             return;
@@ -163,7 +181,7 @@ class _QuizListScreenState extends State<QuizListScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '$lessonCount bài học • $questionCount câu hỏi',
+                      '$lessonCount ${l10n.lessons} • $questionCount ${l10n.questions}',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[600],
@@ -181,9 +199,9 @@ class _QuizListScreenState extends State<QuizListScreen> {
                   color: AppConstants.primaryGreen.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text(
-                  '10 câu',
-                  style: TextStyle(
+                child: Text(
+                  '10 ${l10n.questions}',
+                  style: const TextStyle(
                     color: AppConstants.primaryGreen,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,

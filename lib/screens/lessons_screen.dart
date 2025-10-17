@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/lesson.dart';
 import '../services/database_helper.dart';
 import '../utils/constants.dart';
+import '../l10n/app_localizations.dart';
 import 'lesson_detail_screen.dart';
 
 class LessonsScreen extends StatefulWidget {
@@ -56,9 +57,11 @@ class _LessonsScreenState extends State<LessonsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kiến thức Môi trường'),
+        title: Text(l10n.lessons),
       ),
       body: Column(
         children: [
@@ -76,16 +79,19 @@ class _LessonsScreenState extends State<LessonsScreen> {
   }
 
   Widget _buildCategoryFilter() {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = _getCategoriesMap(l10n);
+    
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: _categories.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          final category = _categories.keys.elementAt(index);
-          final label = _categories[category]!;
+          final category = categories.keys.elementAt(index);
+          final label = categories[category]!;
           final icon = _categoryIcons[category]!;
           final isSelected = _selectedCategory == category;
 
@@ -117,6 +123,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
   }
 
   Widget _buildEmptyState() {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +135,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Chưa có bài học nào',
+            l10n.lessons,
             style: TextStyle(
               fontSize: 18,
               color: Colors.grey[600],
@@ -136,6 +144,17 @@ class _LessonsScreenState extends State<LessonsScreen> {
         ],
       ),
     );
+  }
+
+  Map<String, String> _getCategoriesMap(AppLocalizations l10n) {
+    return {
+      'all': l10n.allCategories,
+      'water': l10n.water,
+      'waste': l10n.waste,
+      'energy': l10n.energy,
+      'climate': l10n.climate,
+      'nature': l10n.nature,
+    };
   }
 
   Widget _buildLessonsList() {
@@ -150,8 +169,10 @@ class _LessonsScreenState extends State<LessonsScreen> {
   }
 
   Widget _buildLessonCard(Lesson lesson) {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = _getCategoriesMap(l10n);
     final categoryIcon = _categoryIcons[lesson.category] ?? '📘';
-    final categoryName = _categories[lesson.category] ?? lesson.category;
+    final categoryName = categories[lesson.category] ?? lesson.category;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),

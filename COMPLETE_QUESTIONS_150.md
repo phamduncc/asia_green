@@ -102,7 +102,7 @@ Do số lượng câu hỏi lớn (80 câu còn lại), tôi đã tạo file ri�
 
 ```bash
 # Windows - Uninstall app
-adb uninstall com.asia.asia_green
+adb uninstall com.appdu.asiagreen
 
 # Chạy lại app
 flutter run

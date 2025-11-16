@@ -26,7 +26,7 @@ App giờ có **150 câu hỏi trắc nghiệm** phong phú cho 5 chủ đề m�
 # Trên điện thoại: Giữ icon app → Gỡ cài đặt
 
 # Hoặc dùng ADB:
-adb uninstall com.asia.asia_green
+adb uninstall com.appdu.asiagreen
 
 # Sau đó chạy lại:
 flutter run
@@ -35,7 +35,7 @@ flutter run
 **Cách 2: Xóa database thủ công**
 ```bash
 # Trên Android
-adb shell rm /data/data/com.asia.asia_green/databases/asia_green.db
+adb shell rm /data/data/com.appdu.asiagreen/databases/asia_green.db
 
 # Sau đó chạy lại app
 flutter run
@@ -300,7 +300,7 @@ Chủ đề "Nước & Môi trường"
 
 ```bash
 # 1. Uninstall app cũ
-adb uninstall com.asia.asia_green
+adb uninstall com.appdu.asiagreen
 
 # 2. Chạy app mới
 flutter run

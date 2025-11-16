@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+// import 'package:flutter_tts/flutter_tts.dart';
 import '../models/lesson.dart';
 import '../utils/constants.dart';
 
@@ -13,46 +13,15 @@ class LessonDetailScreen extends StatefulWidget {
 }
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
-  final FlutterTts _flutterTts = FlutterTts();
+  // final FlutterTts _flutterTts = FlutterTts();
   bool _isSpeaking = false;
 
   @override
   void initState() {
     super.initState();
-    _initTts();
   }
-
-  Future<void> _initTts() async {
-    await _flutterTts.setLanguage("vi-VN");
-    await _flutterTts.setSpeechRate(0.5);
-    await _flutterTts.setVolume(1.0);
-    await _flutterTts.setPitch(1.0);
-
-    _flutterTts.setCompletionHandler(() {
-      setState(() => _isSpeaking = false);
-    });
-  }
-
-  Future<void> _speak() async {
-    if (_isSpeaking) {
-      await _flutterTts.stop();
-      setState(() => _isSpeaking = false);
-    } else {
-      setState(() => _isSpeaking = true);
-      
-      // Remove markdown formatting for better speech
-      final cleanContent = widget.lesson.content
-          .replaceAll('**', '')
-          .replaceAll('•', '')
-          .replaceAll('  ', ' ');
-      
-      await _flutterTts.speak(cleanContent);
-    }
-  }
-
   @override
   void dispose() {
-    _flutterTts.stop();
     super.dispose();
   }
 
@@ -61,13 +30,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bài học'),
-        actions: [
-          IconButton(
-            icon: Icon(_isSpeaking ? Icons.stop : Icons.volume_up),
-            onPressed: _speak,
-            tooltip: _isSpeaking ? 'Dừng đọc' : 'Đọc nội dung',
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -145,7 +145,7 @@ Future<List<Map<String, dynamic>>> getCategories()
 ### Nếu muốn reset:
 ```bash
 # Uninstall app
-adb uninstall com.asia.asia_green
+adb uninstall com.appdu.asiagreen
 
 # Run lại
 flutter run

@@ -197,7 +197,7 @@
 **Cách 1: Uninstall & Reinstall (Khuyến nghị)**
 ```bash
 # Xóa app khỏi thiết bị
-adb uninstall com.asia.asia_green
+adb uninstall com.appdu.asiagreen
 
 # Hoặc xóa thủ công trên thiết bị
 
@@ -208,7 +208,7 @@ flutter run
 **Cách 2: Xóa database thủ công**
 ```bash
 # Xóa database trên Android
-adb shell rm /data/data/com.asia.asia_green/databases/asia_green.db
+adb shell rm /data/data/com.appdu.asiagreen/databases/asia_green.db
 
 # Hoặc trong app, có thể thêm code xóa DB trong settings
 ```

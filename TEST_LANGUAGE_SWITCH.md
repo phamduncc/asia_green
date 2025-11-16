@@ -115,7 +115,7 @@ flutter run
 ```bash
 # Trên điện thoại: Giữ icon → Gỡ cài đặt
 # Hoặc:
-adb uninstall com.asia.asia_green
+adb uninstall com.appdu.asiagreen
 flutter run
 ```
 

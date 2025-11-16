@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import '../utils/constants.dart';
 
 class AppTheme {
@@ -13,19 +13,19 @@ class AppTheme {
         surface: AppConstants.backgroundColor,
       ),
       scaffoldBackgroundColor: AppConstants.backgroundColor,
-      textTheme: GoogleFonts.notoSansTextTheme(),
+      // textTheme: GoogleFonts.notoSansTextTheme(),
       appBarTheme: AppBarTheme(
         backgroundColor: AppConstants.primaryGreen,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.notoSans(
+        titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppConstants.cardColor,
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -40,7 +40,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.notoSans(
+          textStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -65,19 +65,19 @@ class AppTheme {
         surface: const Color(0xFF1E1E1E),
       ),
       scaffoldBackgroundColor: const Color(0xFF121212),
-      textTheme: GoogleFonts.notoSansTextTheme(ThemeData.dark().textTheme),
+      // textTheme: GoogleFonts.notoSansTextTheme(ThemeData.dark().textTheme),
       appBarTheme: AppBarTheme(
         backgroundColor: const Color(0xFF1E1E1E),
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.notoSans(
+        titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: const Color(0xFF2C2C2C),
         elevation: 2,
         shape: RoundedRectangleBorder(
@@ -92,7 +92,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: GoogleFonts.notoSans(
+          textStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
